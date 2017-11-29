@@ -22,8 +22,8 @@
                   </div>
                   <div class="item">
                     <div class="prod-nav">                  
-                      <a href="#" class="add_to_cart"><i class="ico"></i>{l s="В корзину"}</a>
-                        <a class="buy-one-click">{l s="Купить в 1 клик"}</a>                                         
+                      <a href="{$link->getPageLink('cart')|escape:'html'}?qty=1&amp;id_product={$product.id_product}&amp;token={$static_token}&amp;add" class="add-basket button ajax_add_to_cart_button"><i class="ico"></i>{l s="В корзину"}</a>
+                        <a class="buy-in-click zakaz_1click">{l s="Купить в 1 клик"}</a>                                         
                     </div>
                   </div>
                 </div>
