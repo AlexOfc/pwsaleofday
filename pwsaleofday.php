@@ -103,7 +103,7 @@ class pwsaleofday extends Module
 
     public function getRandomProduct()
     {
-        $prod_id = Db::getInstance()->getRow('
+        $prod_id = Db::getInstance()->getValue('
             SELECT DISTINCT cp.id_product, sp.id_product FROM `'._DB_PREFIX_.'category_product` cp 
             RIGHT JOIN `' ._DB_PREFIX_.'specific_price` sp ON (cp.id_product = sp.id_product)
             WHERE id_category = '.Configuration::get('PWSALEOFDAY_CAT_ID').' ORDER BY RAND()');
@@ -121,7 +121,7 @@ class pwsaleofday extends Module
             $id = $this->getRandomProduct();
         } else 
             return;
-        $product = new Product($id);
+        $product = new Product($id, true, $this->context->lang->id);
         $product->name = $product->name[$this->context->cookie->id_lang];
         $product->available_now = $product->available_now[$this->context->cookie->id_lang];
         $img = Image::getCover($id);
@@ -136,12 +136,12 @@ class pwsaleofday extends Module
 
 	public function hookdisplaypwsaleofday($params){
         $rand_prod = $this->getProdData();
-        $this->smarty->assign(array(
-            'id_cat' => Configuration::get('PWSALEOFDAY_CAT_ID'),
-            'product' => $rand_prod,
-        ));
-        if (empty($rand_prod)) {
-            return;
+	if (empty($rand_prod)) {
+		$this->smarty->assign(array(
+		    'id_cat' => Configuration::get('PWSALEOFDAY_CAT_ID'),
+		    'product' => $rand_prod,
+		));        
+            	return;
         } else
 		return $this->display(__FILE__, 'pwsaleofday.tpl');
 	}
